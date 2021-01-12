@@ -1,31 +1,31 @@
 // Initialize modules
-var gulp = require('gulp');
-var cssnano = require('gulp-cssnano');
-var sass = require('gulp-sass');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
+import { task, src, dest, watch } from "gulp";
+import cssnano from "gulp-cssnano";
+import sass from "gulp-sass";
+import concat from "gulp-concat";
+import uglify from "gulp-uglify";
 
 // Sass task: compiles the style.scss file into style.css
-gulp.task('sass', function(){
-    return gulp.src('app/style.scss')
-        .pipe(sass()) // compile SCSS to CSS
-        .pipe(cssnano()) // minify CSS
-        .pipe(gulp.dest('dist')); // put final CSS in dist folder
+task("sass", function () {
+  return src("app/style.scss")
+    .pipe(sass()) // compile SCSS to CSS
+    .pipe(cssnano()) // minify CSS
+    .pipe(dest("dist")); // put final CSS in dist folder
 });
 
 // JS task: concatenates and uglifies JS files to script.js
-gulp.task('js', function(){
-    return gulp.src(['app/js/plugins/*.js', 'app/js/*.js'])
-        .pipe(concat('all.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('dist'));
+task("js", function () {
+  return src(["app/js/plugins/*.js", "app/js/*.js"])
+    .pipe(concat("all.js"))
+    .pipe(uglify())
+    .pipe(dest("dist"));
 });
 
 // Watch task: watch SCSS and JS files for changes
-gulp.task('watch', function(){
-    gulp.watch('app/*.scss', ['sass']);
-    gulp.watch('app/js/**/*.js', ['js']);    
+task("watch", function () {
+  watch("app/*.scss", ["sass"]);
+  watch("app/js/**/*.js", ["js"]);
 });
 
 // Default task
-gulp.task('default', ['sass', 'js', 'watch']);
+task("default", ["sass", "js", "watch"]);
